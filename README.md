@@ -1,6 +1,6 @@
 # dl
 
-[!dl](screen.png)
+![dl](screen.png)
 
 	dl [ -o output ] [ -ax ] url
 
@@ -28,6 +28,12 @@ here are some to list a few:
 `6.out -o myfile https://link.testfile.org/1MB	# the output file will be named myfile.`
 
 `6.out https://link.testfile.org/1MB >out	# redirect stdout to a file called out.`
+
+## Bugs
+Dl does not implement all of hget(1)'s features.
+
+Dl does not validate the URL passed to it, nor the output file name
+and will crash if started with bogus parameters.
 
 ## License
 MIT

@@ -40,5 +40,6 @@ has been set.
 hget(1)
 .EE
 .SH BUGS
+Dl does not implement all of hget(1)'s features.
 Dl does not validate the URL passed to it, nor the output file name
 and will crash if started with bogus parameters.
