@@ -4,10 +4,10 @@
 
 	dl [ -o output ] [ -ax ] url
 
-Dl is a graphical substitute tool for hget(1) and is used for
-downloading files from the world wide web.  It provides the user with
-a progress bar, the estimated time when the download will finish and
-the current downloading speed in a human readable format.
+Dl is a graphical alternative to hget(1) and is used for downloading
+files from the world wide web.  It provides the user with a progress
+bar, the estimated time when the download will finish and the current
+downloading speed in a human readable format.
 
 The -o flag specifies the name of the output file.
 
@@ -23,11 +23,11 @@ nor -o has been set.
 As specified in the manual, dl can be used in a lot of different ways,
 here are some to list a few:
 
-`6.out -a https://link.testfile.org/1MB		# the name of the output file is determined by the URL`
+`6.out -a https://link.testfile.org/1MB` the name of the output file is determined by the URL
 
-`6.out -o myfile https://link.testfile.org/1MB	# the output file will be named myfile.`
+`6.out -o myfile https://link.testfile.org/1MB` the output file will be named myfile.
 
-`6.out https://link.testfile.org/1MB >out	# redirect stdout to a file called out.`
+`6.out https://link.testfile.org/1MB >out` redirect stdout to a file called out.
 
 ## Bugs
 Dl does not implement all of hget(1)'s features.
