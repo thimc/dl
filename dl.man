@@ -1,0 +1,44 @@
+.TH DL 1
+.SH NAME
+dl \- graphical downloading tool
+.SH SYNOPSIS
+.B dl
+[
+.I -o output
+]
+[
+.I -ax
+]
+url
+.SH DESCRIPTION
+.I Dl
+is a graphical substitute tool for hget(1) and is used for downloading
+files from the world wide web.  It provides the user with a progress
+bar, the estimated time when the download will finish and the current
+downloading speed in a human readable format.
+.PP
+The
+.I \-o
+flag specifies the name of the output file.
+.PP
+The
+.I \-a
+flag sets the output file name to that of the parsed URL.
+.PP
+The
+.I \-x
+flag prevents dl from qutting once the file has been downloaded.
+.PP
+Dl will print the downloaded data to standard output if
+.I \-a
+nor
+.I \-o
+has been set.
+.PD
+.SH SEE ALSO
+.EX
+hget(1)
+.EE
+.SH BUGS
+Dl does not validate the URL passed to it, nor the output file name
+and will crash if started with bogus parameters.
