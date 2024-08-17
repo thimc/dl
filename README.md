@@ -23,11 +23,11 @@ nor -o has been set.
 As specified in the manual, dl can be used in a lot of different ways,
 here are some to list a few:
 
-`6.out -a https://link.testfile.org/15MB` the name of the output file is determined by the URL
+`dl -a https://link.testfile.org/15MB` the name of the output file is determined by the URL
 
-`6.out -o myfile https://link.testfile.org/15MB` the output file will be named myfile.
+`dl -o myfile https://link.testfile.org/15MB` the output file will be named myfile.
 
-`6.out https://link.testfile.org/15MB >out` redirect stdout to a file called out.
+`dl https://link.testfile.org/15MB >out` redirect stdout to a file called out.
 
 ## Bugs
 Dl does not implement all of hget(1)'s features.
