@@ -44,49 +44,37 @@ webclone(int *conn)
 }
 
 void
-writectl(int fd, char *fmt, ...)
+getfilename(int fd)
 {
-	va_list va;
-	char buf[256];
-	int n;
+	char buf[64], *s;
+	int n, ufd;
 
-	va_start(va, fmt);
-	vsnprint(buf, sizeof(buf), fmt, va);
-	va_end(va);
-	n = strlen(buf);
-	if(write(fd, buf, n) != n)
-		sysfatal("write %d: %r", fd);
+	snprint(buf, sizeof(buf), "/mnt/web/%d/parsed/url", fd);
+	if((ufd = open(buf, OREAD)) < 0)
+		sysfatal("open %s: %r", buf);
+	n = read(ufd, buf, sizeof(buf));
+	buf[n] = 0;
+	s = utfrrune(buf, '/');
+	if(s)
+		s++;
+	else
+		s = buf;
+	if((out = malloc(sizeof(*out) * strlen(s))) == nil)
+		sysfatal("malloc: %r");
+	strcpy(out, s);
+	close(ufd);
+
 }
 
 long
-readsize(int ctlfd, int fd)
+readsize(int fd)
 {
-	char buf[128], body[1024], *s;
-	int bfd, clfd, n, ufd;
-
- 	writectl(ctlfd, "url %s", url);
- 	writectl(ctlfd, "request HEAD");
+	char buf[128], body[1024];
+	int bfd, clfd, n;
 
 	snprint(buf, sizeof(buf), "/mnt/web/%d/body", fd);
 	if((bfd = open(buf, OREAD)) < 0)
 		sysfatal("open %s: %r", buf);
-
-	if(autoflag){
-		snprint(buf, sizeof(buf), "/mnt/web/%d/parsed/url", fd);
-		if((ufd = open(buf, OREAD)) < 0)
-			sysfatal("open %s: %r", buf);
-		n = read(ufd, buf, sizeof(buf));
-		buf[n] = 0;
-		s = utfrrune(buf, '/');
-		if(s)
-			s++;
-		else
-			s = buf;
-		if((out = malloc(sizeof(*out) * strlen(s))) == nil)
-			sysfatal("malloc: %r");
-		strcpy(out, s);
-		close(ufd);
-	}
 
 	snprint(buf, sizeof(buf), "/mnt/web/%d/contentlength", fd);
 	if((clfd = open(buf, OREAD)) < 0)
@@ -202,10 +190,17 @@ dlproc(void *c)
  
  	threadsetname("dlproc");
  	ctlfd = webclone(&fd);
- 	siz = readsize(ctlfd, fd);
-	pos = 0;
 
- 	writectl(ctlfd, "url %s", url);
+ 	fprint(ctlfd, "url %s", url);
+ 	fprint(ctlfd, "request HEAD");
+
+	if((siz = readsize(fd)) < 1)
+		sysfatal("could not determine the file size for url: '%s'", url);
+
+	if(autoflag)
+		getfilename(fd);
+
+ 	fprint(ctlfd, "url %s", url);
  	snprint(p, sizeof(p), "/mnt/web/%d/body", fd);
  	if((fd = open(p, OREAD)) < 0)
  		sysfatal("open %s: %r", buf);
@@ -225,8 +220,8 @@ dlproc(void *c)
 		write(fdout, buf, sizeof(buf));
 		if(curr - start < 1)
 			continue;
-		dur = curr - start;		// seconds
-		speed = pos / dur;		// bytes per second
+		dur = curr - start;			// seconds
+		speed = pos / dur;			// bytes per second
 		eta = (siz - pos) / speed;	// seconds
 		percentage = (float)pos / (float)siz;
 		sendul(c, 0);
@@ -291,7 +286,6 @@ threadmain(int argc, char *argv[])
 	background = allocimagemix(display, DPalebluegreen, DWhite);
 	inner = allocimage(display, Rect(0,0,1,1), screen->chan, 1, DPalegreygreen);
 
-	redraw();
 	for(;;){
 		switch(alt(alts)){
 		case 0:
