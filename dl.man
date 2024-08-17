@@ -15,7 +15,18 @@ url
 is a graphical substitute tool for hget(1) and is used for downloading
 files from the world wide web.  It provides the user with a progress
 bar, the estimated time when the download will finish and the current
-downloading speed in a human readable format.
+downloading speed, all in a human readable format.
+.PP
+Dl also displays what is currently being downloaded. If the
+.I \-a
+or
+.I \-o
+flag is set, dl also displays the output name.  If the window size is
+too small for dl to fit everything  it is truncated, as indicated by
+.I '".."'
+next to the
+.I Downloading
+text.
 .PP
 The
 .I \-o
@@ -40,6 +51,8 @@ has been set.
 hget(1)
 .EE
 .SH BUGS
+.PP
 Dl does not implement all of hget(1)'s features.
+.PP
 Dl does not validate the URL passed to it, nor the output file name
 and will crash if started with bogus parameters.

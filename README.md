@@ -9,6 +9,11 @@ files from the world wide web.  It provides the user with a progress
 bar, the estimated time when the download will finish and the current
 downloading speed in a human readable format.
 
+As seen in the image above, if the -a or -o flag is specified it
+displays the output file next to what is currently being downloaded,
+indicated by the "->". However, if the window size is too small it is
+truncated to "..".
+
 The -o flag specifies the name of the output file.
 
 The -a flag sets the output file name to that of the parsed URL.
