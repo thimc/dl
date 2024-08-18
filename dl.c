@@ -217,7 +217,7 @@ dlproc(void *c)
 	while((n = readn(fd, buf, sizeof(buf))) > 0){
 		curr = time(nil);
 		pos += n;
-		write(fdout, buf, sizeof(buf));
+		write(fdout, buf, n);
 		if(curr - start < 1)
 			continue;
 		dur = curr - start;			// seconds
